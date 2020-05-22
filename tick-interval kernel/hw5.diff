@@ -1,0 +1,125 @@
+diff --git a/kernel/proc.h b/kernel/proc.h
+index 538b48a..69d9324 100644
+--- a/kernel/proc.h
++++ b/kernel/proc.h
+@@ -94,6 +94,8 @@ struct proc {
+   int xstate;                  // Exit status to be returned to parent's wait
+   int pid;                     // Process ID
+ 
++  //uint64 tickInterval = 1000000; // Timer interrupt interval; default = 1000000
++
+   // these are private to the process, so p->lock need not be held.
+   uint64 kstack;               // Bottom of kernel stack for this process
+   uint64 sz;                   // Size of process memory (bytes)
+diff --git a/kernel/trap.c b/kernel/trap.c
+index ca732f2..d2990ef 100644
+--- a/kernel/trap.c
++++ b/kernel/trap.c
+@@ -11,11 +11,28 @@ uint ticks;
+ 
+ extern char trampoline[], uservec[], userret[];
+ 
++
++const uint64 MINIMUM_INTERVAL = 1000000;
++const uint64 MAXIMUM_INTERVAL = MINIMUM_INTERVAL * 10;
++extern uint64 mscratch0[NCPU * 32];
++uint64 cur_interval =MINIMUM_INTERVAL;
++
++uint64 prev_time;
++uint64 cur_time;
++uint64 duration;
++
++
+ // in kernelvec.S, calls kerneltrap().
+ void kernelvec();
+ 
+ extern int devintr();
+ 
++
++void setTickInterval(int interval){
++    uint64  *scratch = &mscratch0[0];
++    scratch[5] = interval;
++}
++
+ void
+ trapinit(void)
+ {
+@@ -77,8 +94,29 @@ usertrap(void)
+     exit(-1);
+ 
+   // give up the CPU if this is a timer interrupt.
+-  if(which_dev == 2)
+-    yield();
++  if(which_dev == 2) {
++      yield();
++      if(duration >= cur_interval - 2000000 ){
++          cur_interval = cur_interval + 100000;
++          setTickInterval(cur_interval);
++      }else{
++          if(cur_interval <= MINIMUM_INTERVAL){
++              cur_interval = MINIMUM_INTERVAL;
++          }
++          else {
++              cur_interval = cur_interval - 100000;
++              setTickInterval(cur_interval);
++          }
++      }
++
++      if(cur_interval >= MAXIMUM_INTERVAL) {
++          cur_interval = MINIMUM_INTERVAL;
++      }
++
++
++
++
++  }
+ 
+   usertrapret();
+ }
+@@ -150,8 +188,27 @@ kerneltrap()
+   }
+ 
+   // give up the CPU if this is a timer interrupt.
+-  if(which_dev == 2 && myproc() != 0 && myproc()->state == RUNNING)
+-    yield();
++  if(which_dev == 2 && myproc() != 0 && myproc()->state == RUNNING) {
++      yield();
++      if(duration >= cur_interval - 2000000 ){
++          cur_interval = cur_interval + 100000;
++          setTickInterval(cur_interval);
++      }else{
++          if(cur_interval <= MINIMUM_INTERVAL){
++              cur_interval = MINIMUM_INTERVAL;
++          }
++          else {
++              cur_interval = cur_interval - 100000;
++              setTickInterval(cur_interval);
++          }
++      }
++
++      if(cur_interval >= MAXIMUM_INTERVAL) {
++          cur_interval = MINIMUM_INTERVAL;
++      }
++
++
++  }
+ 
+   // the yield() may have caused some traps to occur,
+   // so restore trap registers for use by kernelvec.S's sepc instruction.
+@@ -159,11 +216,16 @@ kerneltrap()
+   w_sstatus(sstatus);
+ }
+ 
++
+ void
+ clockintr()
+ {
+   acquire(&tickslock);
++
++  cur_time = *(uint64*)CLINT_MTIME;
++  duration = cur_time - prev_time;
+   ticks++;
++  prev_time = cur_time;
+   wakeup(&ticks);
+   release(&tickslock);
+ }

@@ -1,0 +1,7 @@
+1. What algorithm for adjusting the tick interval did you implement?
+
+My algorithm keep track of duration() and current interval in trap.c . If duration approaches exceeds a certain threshold(slightly smaller than current interval), we increase the interval. If the other case is true, we decrease the current interval a certain amount. 
+
+2.Which syscall does adapting the tick interval most affect? Why?
+
+Read and write should be affected most. Because when reading or writing a large file, they are going to take more time, increasing the interval helps.
