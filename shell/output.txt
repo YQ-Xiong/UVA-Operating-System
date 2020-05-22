@@ -1,0 +1,545 @@
+g++ -Wall -pedantic -O2 -g -std=c++11   -c -o main.o main.cc
+g++ -Wall -pedantic -O2 -g -std=c++11 -o uvash main.o
+python3 shell_test.py
+Passed test exit immediately
+---
+Failed test empty command is invalid
+Test input:
+   
+   exit
+Expected stdout regular expression pattern:  
+   > > 
+Expected stderr regular expression pattern:  
+   .*invalid command.*
+Errors:
+  in stdout: could not find a match for pattern [> > ] in line [> ]
+  in stdout: could not find match for pattern [> > ] in ['> ']
+  in stderr: could not find match for pattern [.*invalid command.*] in []
+---
+---
+Failed test empty command is invalid, even with whitespace
+Test input:
+                	      
+   exit
+Expected stdout regular expression pattern:  
+   > > 
+Expected stderr regular expression pattern:  
+   .*invalid command.*
+Errors:
+  in stdout: could not find a match for pattern [> > ] in line [> ]
+  in stdout: could not find match for pattern [> > ] in ['> ']
+  in stderr: could not find match for pattern [.*invalid command.*] in []
+---
+---
+Failed test trivial command, exit status 0
+Test input:
+   /bin/true
+   exit
+Expected stdout regular expression pattern:  
+   > .*[Ee]xit status: 0.*
+   > 
+Expected stderr regular expression pattern:  
+Errors:
+  in stdout: could not find a match for pattern [> .*[Ee]xit status: 0.*] in line [> > Exit status: 1]
+  in stdout: could not find a match for pattern [> .*[Ee]xit status: 0.*] in line [> ]
+  in stdout: could not find match for pattern [> .*[Ee]xit status: 0.*] in ['> > Exit status: 1', '> ']
+  in stderr: unexpected extra output [['Cannot execute : No such file or directory']]
+---
+---
+Failed test trivial command with extra space, exit status 0
+Test input:
+    /bin/true
+   exit
+Expected stdout regular expression pattern:  
+   > .*[Ee]xit status: 0.*
+   > 
+Expected stderr regular expression pattern:  
+Errors:
+  in stdout: could not find a match for pattern [> .*[Ee]xit status: 0.*] in line [> > Exit status: 1]
+  in stdout: could not find a match for pattern [> .*[Ee]xit status: 0.*] in line [> ]
+  in stdout: could not find match for pattern [> .*[Ee]xit status: 0.*] in ['> > Exit status: 1', '> ']
+  in stderr: unexpected extra output [['Cannot execute : No such file or directory']]
+---
+---
+Failed test trivial command with extra tab, exit status 0
+Test input:
+   	/bin/true
+   exit
+Expected stdout regular expression pattern:  
+   > .*[Ee]xit status: 0.*
+   > 
+Expected stderr regular expression pattern:  
+Errors:
+  in stdout: could not find a match for pattern [> .*[Ee]xit status: 0.*] in line [> > Exit status: 1]
+  in stdout: could not find a match for pattern [> .*[Ee]xit status: 0.*] in line [> ]
+  in stdout: could not find match for pattern [> .*[Ee]xit status: 0.*] in ['> > Exit status: 1', '> ']
+  in stderr: unexpected extra output [['Cannot execute : No such file or directory']]
+---
+---
+Failed test trivial command with extra vertical tab, exit status 0
+Test input:
+   /bin/true
+   exit
+Expected stdout regular expression pattern:  
+   > .*[Ee]xit status: 0.*
+   > 
+Expected stderr regular expression pattern:  
+Errors:
+  in stdout: could not find a match for pattern [> .*[Ee]xit status: 0.*] in line [> > Exit status: 1]
+  in stdout: could not find a match for pattern [> .*[Ee]xit status: 0.*] in line [> ]
+  in stdout: could not find match for pattern [> .*[Ee]xit status: 0.*] in ['> > Exit status: 1', '> ']
+  in stderr: unexpected extra output [['Cannot execute : No such file or directory']]
+---
+---
+Failed test trivial command, exit status 1
+Test input:
+   /bin/false
+   exit
+Expected stdout regular expression pattern:  
+   > .*[Ee]xit status: 1.*
+   > 
+Expected stderr regular expression pattern:  
+Errors:
+  in stderr: unexpected extra output [['Cannot execute : No such file or directory']]
+---
+---
+Failed test only redirections is invalid
+Test input:
+   > foo.txt < bar.txt
+   exit
+Expected stdout regular expression pattern:  
+   > > 
+Expected stderr regular expression pattern:  
+   .*invalid command.*
+Errors:
+  in stdout: could not find a match for pattern [> > ] in line [> ]
+  in stdout: could not find match for pattern [> > ] in ['> ']
+  in stderr: could not find match for pattern [.*invalid command.*] in []
+---
+---
+Failed test redirection to nothing is invalid
+Test input:
+   /bin/true > 
+   exit
+Expected stdout regular expression pattern:  
+   > > 
+Expected stderr regular expression pattern:  
+   .*invalid command.*
+Errors:
+  in stdout: could not find a match for pattern [> > ] in line [> > Exit status: 1]
+  in stdout: could not find a match for pattern [> > ] in line [> ]
+  in stdout: could not find match for pattern [> > ] in ['> > Exit status: 1', '> ']
+---
+---
+Failed test redirection from nothing is invalid
+Test input:
+   /bin/true < 
+   exit
+Expected stdout regular expression pattern:  
+   > > 
+Expected stderr regular expression pattern:  
+   .*invalid command.*
+Errors:
+  in stdout: could not find a match for pattern [> > ] in line [> > Exit status: 1]
+  in stdout: could not find a match for pattern [> > ] in line [> ]
+  in stdout: could not find match for pattern [> > ] in ['> > Exit status: 1', '> ']
+---
+Passed test pass arguments
+Passed test " is not quote
+Passed test varying argument counts and lengths
+Passed test varing command lengths (1)
+Passed test varing command lengths (2)
+Passed test very long argument
+Passed test lots of arguments
+Passed test extra whitespace without redirects
+Passed test redirections require whitespace around >
+Passed test redirections require whitespace around <
+Passed test >> is not a redirection operator
+---
+Failed test redirect stdin inode
+Test input:
+   /usr/bin/stat -L -c %i/%d /proc/self/fd/0 < test/input.txt
+   exit
+Expected stdout regular expression pattern:  
+   > 9830813/16777220
+   .*exit status: 0.*
+   > 
+Expected stderr regular expression pattern:  
+Errors:
+  in stdout: could not find a match for pattern [> 9830813/16777220] in line [> > Exit status: 1]
+  in stdout: could not find a match for pattern [> 9830813/16777220] in line [> ]
+  in stdout: could not find match for pattern [> 9830813/16777220] in ['> > Exit status: 1', '> ']
+  in stderr: unexpected extra output [['/usr/bin/stat: illegal option -- c', 'usage: stat [-FlLnqrsx] [-f format] [-t timefmt] [file ...]']]
+---
+Passed test redirect stdin contents
+---
+Failed test simple pipe output
+Test input:
+   /bin/echo testing  one two three | /bin/sed -e s/one/XXX/
+   exit
+Expected stdout regular expression pattern:  (extra lines allowed)
+   .*testing XXX two three
+Expected stderr regular expression pattern:  
+Errors:
+  in stdout: could not find match for pattern [.*testing XXX two three] in ['> testing one two three', '> Exit status: 0', '> Exit status: 1', '> ']
+  in stderr: unexpected extra output [['Cannot execute : No such file or directory']]
+---
+---
+Failed test simple pipe exit status
+Test input:
+   /bin/echo testing one two three | /bin/sed -e s/one/XXX/
+   exit
+Expected stdout regular expression pattern:  (extra lines allowed)
+   .*exit status: 0.*
+   .*exit status: 0.*
+Expected stderr regular expression pattern:  
+Errors:
+  in stdout: could not find match for pattern [.*exit status: 0.*] in ['> Exit status: 1', '> ']
+  in stderr: unexpected extra output [['Cannot execute : No such file or directory']]
+---
+---
+Failed test longer pipeline output
+Test input:
+   /bin/echo testing one two three | /bin/sed -e s/one/XXX/ | /bin/sed -e s/two/YYY/
+   exit
+Expected stdout regular expression pattern:  (extra lines allowed)
+   .*testing XXX YYY three
+Expected stderr regular expression pattern:  
+Errors:
+  in stdout: could not find match for pattern [.*testing XXX YYY three] in ['> testing one two three', '> Exit status: 0', '> Exit status: 1', '> Exit status: 1', '> ']
+  in stderr: unexpected extra output [['Cannot execute : No such file or directory', 'Cannot execute : No such file or directory']]
+---
+---
+Failed test longer pipeline exit status (all 0s)
+Test input:
+   /bin/echo testing one two three | /bin/sed -e s/one/XXX/ | /bin/sed -e s/two/YYY/
+   exit
+Expected stdout regular expression pattern:  (extra lines allowed)
+   .*exit status: 0.*
+   .*exit status: 0.*
+   .*exit status: 0.*
+Expected stderr regular expression pattern:  
+Errors:
+  in stdout: could not find match for pattern [.*exit status: 0.*] in ['> Exit status: 1', '> Exit status: 1', '> ']
+  in stderr: unexpected extra output [['Cannot execute : No such file or directory', 'Cannot execute : No such file or directory']]
+---
+---
+Failed test pipeline with two exit status 1s and one 0 has 1s
+Test input:
+   /bin/true ignored 1 | /bin/false ignored 2 | /bin/false ignored 3
+   exit
+Expected stdout regular expression pattern:  (extra lines allowed)
+   .*exit status: 1.*
+   .*exit status: 1.*
+Expected stderr regular expression pattern:  
+Errors:
+  in stderr: unexpected extra output [['Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory']]
+---
+---
+Failed test pipeline with two exit status 1s and one 0 has 0
+Test input:
+   /bin/true some ignored arugments | /bin/false ignored argument | /bin/false more ignored argument
+   exit
+Expected stdout regular expression pattern:  (extra lines allowed)
+   .*exit status: 0.*
+Expected stderr regular expression pattern:  
+Errors:
+  in stdout: could not find match for pattern [.*exit status: 0.*] in ['> > Exit status: 1', '> Exit status: 1', '> Exit status: 1', '> ']
+  in stderr: unexpected extra output [['Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory']]
+---
+---
+Failed test fork fails
+Test input:
+   /bin/echo testing one two three
+   exit
+Expected stdout regular expression pattern:  
+   > > 
+Expected stderr regular expression pattern:  (extra lines allowed)
+   .+
+(This test also has some setup code.)
+Errors:
+  in stdout: could not find a match for pattern [> > ] in line [> > Exit status: 46]
+  in stdout: could not find a match for pattern [> > ] in line [> ]
+  in stdout: could not find match for pattern [> > ] in ['> > Exit status: 46', '> ']
+  in stderr: could not find match for pattern [.+] in []
+---
+---
+Failed test fork fails in a pipeline 
+Test input:
+   /bin/cat | /bin/cat | /bin/cat | /bin/cat
+   exit
+Expected stdout regular expression pattern:  
+   > > 
+Expected stderr regular expression pattern:  (extra lines allowed)
+   .+
+(This test also has some setup code.)
+Errors:
+  in stdout: could not find a match for pattern [> > ] in line [> > Exit status: 44]
+  in stdout: could not find a match for pattern [> > ] in line [> Exit status: 44]
+  in stdout: could not find a match for pattern [> > ] in line [> Exit status: 44]
+  in stdout: could not find a match for pattern [> > ] in line [> Exit status: 44]
+  in stdout: could not find a match for pattern [> > ] in line [> ]
+  in stdout: could not find match for pattern [> > ] in ['> > Exit status: 44', '> Exit status: 44', '> Exit status: 44', '> Exit status: 44', '> ']
+  in stderr: could not find match for pattern [.+] in []
+---
+Passed test |s without spaces is not a pipeline
+---
+Failed test |s without spaces mixed with | with spaces (output)
+Test input:
+   /bin/echo this|argument|has|pipes | /bin/sed -e s/argument/XXX/
+   exit
+Expected stdout regular expression pattern:  (extra lines allowed)
+   .*this\|XXX\|has\|pipes
+   > 
+Expected stderr regular expression pattern:  
+Errors:
+  in stdout: could not find match for pattern [.*this\|XXX\|has\|pipes] in ['> this|argument|has|pipes', '> Exit status: 0', '> Exit status: 1', '> ']
+  in stderr: unexpected extra output [['Cannot execute : No such file or directory']]
+---
+---
+Failed test |s without spaces mixed with | with spaces (exit statuses)
+Test input:
+   /bin/echo this|argument|has|pipes | /bin/sed -e s/argument/XXX/
+   exit
+Expected stdout regular expression pattern:  (extra lines allowed)
+   .*exit status: 0.*
+   .*exit status: 0.*
+Expected stderr regular expression pattern:  
+Errors:
+  in stdout: could not find match for pattern [.*exit status: 0.*] in ['> Exit status: 1', '> ']
+  in stderr: unexpected extra output [['Cannot execute : No such file or directory']]
+---
+Passed test exec fails
+---
+Failed test redirect stdout
+Test input:
+   /bin/echo testing one two three > test/redirect-stdout-output.txt
+   exit
+Expected stdout regular expression pattern:  
+   .*exit status: 0.*
+   > 
+Expected stderr regular expression pattern:  
+Errors:
+  error [Errno 13] Permission denied: 'test/redirect-stdout-output.txt' while reading test/redirect-stdout-output.txt
+---
+---
+Failed test redirect stdout does not redirect stderr
+Test input:
+   test/sample_outputs.sh > test/redirect-stdout-output.txt
+   exit
+Expected stdout regular expression pattern:  
+   .*exit status: 0.*
+   > 
+Expected stderr regular expression pattern:  
+   This is the contents of stderr.
+Errors:
+  error [Errno 13] Permission denied: 'test/redirect-stdout-output.txt' while reading test/redirect-stdout-output.txt
+---
+---
+Failed test redirect in middle of command
+Test input:
+   /bin/echo testing one two > test/redirect-stdout-output.txt three 
+   exit
+Expected stdout regular expression pattern:  
+   .*exit status: 0.*
+   > 
+Expected stderr regular expression pattern:  
+Errors:
+  error [Errno 13] Permission denied: 'test/redirect-stdout-output.txt' while reading test/redirect-stdout-output.txt
+---
+---
+Failed test redirect at beginning of command
+Test input:
+   > test/redirect-stdout-output.txt /bin/echo testing one two three 
+   exit
+Expected stdout regular expression pattern:  
+   .*exit status: 0.*
+   > 
+Expected stderr regular expression pattern:  
+Errors:
+  error [Errno 13] Permission denied: 'test/redirect-stdout-output.txt' while reading test/redirect-stdout-output.txt
+---
+---
+Failed test extra whitespace in redirect at beginning
+Test input:
+     >    	test/redirect-stdout-output.txt	  /bin/echo	testing    one   two three 
+   exit
+Expected stdout regular expression pattern:  
+   .*exit status: 0.*
+   > 
+Expected stderr regular expression pattern:  
+Errors:
+  error [Errno 13] Permission denied: 'test/redirect-stdout-output.txt' while reading test/redirect-stdout-output.txt
+---
+Passed test redirect output then use normal output
+---
+Failed test redirect input then use normal input
+Test input:
+   /usr/bin/stat -L -c %F /proc/self/fd/0
+   /bin/cat < test/input.txt
+   /usr/bin/stat -L -c %F /proc/self/fd/0
+   exit
+Expected stderr regular expression pattern:  
+Errors:
+  in stdout: could not find a match for pattern [> fifo] in line [> > Exit status: 1]
+  in stdout: could not find a match for pattern [> fifo] in line [> This is an example input file.]
+  in stdout: could not find a match for pattern [> fifo] in line [Which has multiple lines.]
+  in stdout: could not find a match for pattern [> fifo] in line [> Exit status: 0]
+  in stdout: could not find a match for pattern [> fifo] in line [> > Exit status: 1]
+  in stdout: could not find a match for pattern [> fifo] in line [> ]
+  in stdout: could not find match for pattern [> fifo] in ['> > Exit status: 1', '> This is an example input file.', 'Which has multiple lines.', '> Exit status: 0', '> > Exit status: 1', '> ']
+  in stderr: unexpected extra output [['/usr/bin/stat: illegal option -- c', 'usage: stat [-FlLnqrsx] [-f format] [-t timefmt] [file ...]', '/usr/bin/stat: illegal option -- c', 'usage: stat [-FlLnqrsx] [-f format] [-t timefmt] [file ...]']]
+---
+Passed test redirect output truncates file
+Passed test echo 100 times output
+Passed test echo 100 times exit status
+---
+Failed test 100 output redirections (with limit of 50 open files)
+Expected stderr regular expression pattern:  
+(This test also has some setup code.)
+Errors:
+  error [Errno 13] Permission denied: 'test/redirect-output-0' while reading test/redirect-output-0
+  error [Errno 13] Permission denied: 'test/redirect-output-1' while reading test/redirect-output-1
+  error [Errno 13] Permission denied: 'test/redirect-output-10' while reading test/redirect-output-10
+  error [Errno 13] Permission denied: 'test/redirect-output-11' while reading test/redirect-output-11
+  error [Errno 13] Permission denied: 'test/redirect-output-12' while reading test/redirect-output-12
+  error [Errno 13] Permission denied: 'test/redirect-output-13' while reading test/redirect-output-13
+  error [Errno 13] Permission denied: 'test/redirect-output-14' while reading test/redirect-output-14
+  error [Errno 13] Permission denied: 'test/redirect-output-15' while reading test/redirect-output-15
+  error [Errno 13] Permission denied: 'test/redirect-output-16' while reading test/redirect-output-16
+  error [Errno 13] Permission denied: 'test/redirect-output-17' while reading test/redirect-output-17
+  error [Errno 13] Permission denied: 'test/redirect-output-18' while reading test/redirect-output-18
+  error [Errno 13] Permission denied: 'test/redirect-output-19' while reading test/redirect-output-19
+  error [Errno 13] Permission denied: 'test/redirect-output-2' while reading test/redirect-output-2
+  error [Errno 13] Permission denied: 'test/redirect-output-20' while reading test/redirect-output-20
+  error [Errno 13] Permission denied: 'test/redirect-output-21' while reading test/redirect-output-21
+  error [Errno 13] Permission denied: 'test/redirect-output-22' while reading test/redirect-output-22
+  error [Errno 13] Permission denied: 'test/redirect-output-23' while reading test/redirect-output-23
+  error [Errno 13] Permission denied: 'test/redirect-output-24' while reading test/redirect-output-24
+  error [Errno 13] Permission denied: 'test/redirect-output-25' while reading test/redirect-output-25
+  error [Errno 13] Permission denied: 'test/redirect-output-26' while reading test/redirect-output-26
+  error [Errno 13] Permission denied: 'test/redirect-output-27' while reading test/redirect-output-27
+  error [Errno 13] Permission denied: 'test/redirect-output-28' while reading test/redirect-output-28
+  error [Errno 13] Permission denied: 'test/redirect-output-29' while reading test/redirect-output-29
+  error [Errno 13] Permission denied: 'test/redirect-output-3' while reading test/redirect-output-3
+  error [Errno 13] Permission denied: 'test/redirect-output-30' while reading test/redirect-output-30
+  error [Errno 13] Permission denied: 'test/redirect-output-31' while reading test/redirect-output-31
+  error [Errno 13] Permission denied: 'test/redirect-output-32' while reading test/redirect-output-32
+  error [Errno 13] Permission denied: 'test/redirect-output-33' while reading test/redirect-output-33
+  error [Errno 13] Permission denied: 'test/redirect-output-34' while reading test/redirect-output-34
+  error [Errno 13] Permission denied: 'test/redirect-output-35' while reading test/redirect-output-35
+  error [Errno 13] Permission denied: 'test/redirect-output-36' while reading test/redirect-output-36
+  error [Errno 13] Permission denied: 'test/redirect-output-37' while reading test/redirect-output-37
+  error [Errno 13] Permission denied: 'test/redirect-output-38' while reading test/redirect-output-38
+  error [Errno 13] Permission denied: 'test/redirect-output-39' while reading test/redirect-output-39
+  error [Errno 13] Permission denied: 'test/redirect-output-4' while reading test/redirect-output-4
+  error [Errno 13] Permission denied: 'test/redirect-output-40' while reading test/redirect-output-40
+  error [Errno 13] Permission denied: 'test/redirect-output-41' while reading test/redirect-output-41
+  error [Errno 13] Permission denied: 'test/redirect-output-42' while reading test/redirect-output-42
+  error [Errno 13] Permission denied: 'test/redirect-output-43' while reading test/redirect-output-43
+  error [Errno 13] Permission denied: 'test/redirect-output-44' while reading test/redirect-output-44
+  error [Errno 13] Permission denied: 'test/redirect-output-45' while reading test/redirect-output-45
+  error [Errno 13] Permission denied: 'test/redirect-output-46' while reading test/redirect-output-46
+  error [Errno 13] Permission denied: 'test/redirect-output-47' while reading test/redirect-output-47
+  error [Errno 13] Permission denied: 'test/redirect-output-48' while reading test/redirect-output-48
+  error [Errno 13] Permission denied: 'test/redirect-output-49' while reading test/redirect-output-49
+  error [Errno 13] Permission denied: 'test/redirect-output-5' while reading test/redirect-output-5
+  error [Errno 13] Permission denied: 'test/redirect-output-50' while reading test/redirect-output-50
+  error [Errno 13] Permission denied: 'test/redirect-output-51' while reading test/redirect-output-51
+  error [Errno 13] Permission denied: 'test/redirect-output-52' while reading test/redirect-output-52
+  error [Errno 13] Permission denied: 'test/redirect-output-53' while reading test/redirect-output-53
+  error [Errno 13] Permission denied: 'test/redirect-output-54' while reading test/redirect-output-54
+  error [Errno 13] Permission denied: 'test/redirect-output-55' while reading test/redirect-output-55
+  error [Errno 13] Permission denied: 'test/redirect-output-56' while reading test/redirect-output-56
+  error [Errno 13] Permission denied: 'test/redirect-output-57' while reading test/redirect-output-57
+  error [Errno 13] Permission denied: 'test/redirect-output-58' while reading test/redirect-output-58
+  error [Errno 13] Permission denied: 'test/redirect-output-59' while reading test/redirect-output-59
+  error [Errno 13] Permission denied: 'test/redirect-output-6' while reading test/redirect-output-6
+  error [Errno 13] Permission denied: 'test/redirect-output-60' while reading test/redirect-output-60
+  error [Errno 13] Permission denied: 'test/redirect-output-61' while reading test/redirect-output-61
+  error [Errno 13] Permission denied: 'test/redirect-output-62' while reading test/redirect-output-62
+  error [Errno 13] Permission denied: 'test/redirect-output-63' while reading test/redirect-output-63
+  error [Errno 13] Permission denied: 'test/redirect-output-64' while reading test/redirect-output-64
+  error [Errno 13] Permission denied: 'test/redirect-output-65' while reading test/redirect-output-65
+  error [Errno 13] Permission denied: 'test/redirect-output-66' while reading test/redirect-output-66
+  error [Errno 13] Permission denied: 'test/redirect-output-67' while reading test/redirect-output-67
+  error [Errno 13] Permission denied: 'test/redirect-output-68' while reading test/redirect-output-68
+  error [Errno 13] Permission denied: 'test/redirect-output-69' while reading test/redirect-output-69
+  error [Errno 13] Permission denied: 'test/redirect-output-7' while reading test/redirect-output-7
+  error [Errno 13] Permission denied: 'test/redirect-output-70' while reading test/redirect-output-70
+  error [Errno 13] Permission denied: 'test/redirect-output-71' while reading test/redirect-output-71
+  error [Errno 13] Permission denied: 'test/redirect-output-72' while reading test/redirect-output-72
+  error [Errno 13] Permission denied: 'test/redirect-output-73' while reading test/redirect-output-73
+  error [Errno 13] Permission denied: 'test/redirect-output-74' while reading test/redirect-output-74
+  error [Errno 13] Permission denied: 'test/redirect-output-75' while reading test/redirect-output-75
+  error [Errno 13] Permission denied: 'test/redirect-output-76' while reading test/redirect-output-76
+  error [Errno 13] Permission denied: 'test/redirect-output-77' while reading test/redirect-output-77
+  error [Errno 13] Permission denied: 'test/redirect-output-78' while reading test/redirect-output-78
+  error [Errno 13] Permission denied: 'test/redirect-output-79' while reading test/redirect-output-79
+  error [Errno 13] Permission denied: 'test/redirect-output-8' while reading test/redirect-output-8
+  error [Errno 13] Permission denied: 'test/redirect-output-80' while reading test/redirect-output-80
+  error [Errno 13] Permission denied: 'test/redirect-output-81' while reading test/redirect-output-81
+  error [Errno 13] Permission denied: 'test/redirect-output-82' while reading test/redirect-output-82
+  error [Errno 13] Permission denied: 'test/redirect-output-83' while reading test/redirect-output-83
+  error [Errno 13] Permission denied: 'test/redirect-output-84' while reading test/redirect-output-84
+  error [Errno 13] Permission denied: 'test/redirect-output-85' while reading test/redirect-output-85
+  error [Errno 13] Permission denied: 'test/redirect-output-86' while reading test/redirect-output-86
+  error [Errno 13] Permission denied: 'test/redirect-output-87' while reading test/redirect-output-87
+  error [Errno 13] Permission denied: 'test/redirect-output-88' while reading test/redirect-output-88
+  error [Errno 13] Permission denied: 'test/redirect-output-89' while reading test/redirect-output-89
+  error [Errno 13] Permission denied: 'test/redirect-output-9' while reading test/redirect-output-9
+  error [Errno 13] Permission denied: 'test/redirect-output-90' while reading test/redirect-output-90
+  error [Errno 13] Permission denied: 'test/redirect-output-91' while reading test/redirect-output-91
+  error [Errno 13] Permission denied: 'test/redirect-output-92' while reading test/redirect-output-92
+  error [Errno 13] Permission denied: 'test/redirect-output-93' while reading test/redirect-output-93
+  error [Errno 13] Permission denied: 'test/redirect-output-94' while reading test/redirect-output-94
+  error [Errno 13] Permission denied: 'test/redirect-output-95' while reading test/redirect-output-95
+  error [Errno 13] Permission denied: 'test/redirect-output-96' while reading test/redirect-output-96
+  error [Errno 13] Permission denied: 'test/redirect-output-97' while reading test/redirect-output-97
+  error [Errno 13] Permission denied: 'test/redirect-output-98' while reading test/redirect-output-98
+  error [Errno 13] Permission denied: 'test/redirect-output-99' while reading test/redirect-output-99
+---
+Passed test 100 input redirections (with limit of 50 open files)
+---
+Failed test 100 pipelines (with limit of 50 open files)
+Expected stderr regular expression pattern:  
+(This test also has some setup code.)
+Errors:
+  in stdout: could not find match for pattern [.*a xxx] in ['> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> a test', '> Exit status: 0', '> Exit status: 1', '> ']
+  in stderr: unexpected extra output [['Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory', 'Cannot execute : No such file or directory']]
+---
+---
+Failed test redirect to operator is invalid
+Test input:
+   /bin/false > > 
+   exit
+Expected stdout regular expression pattern:  
+   > > 
+Expected stderr regular expression pattern:  
+   .*invalid command.*
+Errors:
+  in stdout: could not find a match for pattern [> > ] in line [> > Exit status: 1]
+  in stdout: could not find a match for pattern [> > ] in line [> ]
+  in stdout: could not find match for pattern [> > ] in ['> > Exit status: 1', '> ']
+---
+---
+Failed test redirect from operator is invalid
+Test input:
+   /bin/false < | 
+   exit
+Expected stdout regular expression pattern:  
+   > > 
+Expected stderr regular expression pattern:  
+   .*invalid command.*
+Errors:
+  in stdout: could not find a match for pattern [> > ] in line [> > Exit status: 1]
+  in stdout: could not find a match for pattern [> > ] in line [> ]
+  in stdout: could not find match for pattern [> > ] in ['> > Exit status: 1', '> ']
+---
+---
+Note on interpreting test output patterns:
+All expected values matched against a "regular expression" where:
+    .* means any string (including empty strings)
+    .+ means any string (excluding empty strings)
+    everything is matched case-insensitively
+

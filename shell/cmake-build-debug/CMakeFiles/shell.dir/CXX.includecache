@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/yingqiaoxiong/Downloads/shell/main.cc
+cstdlib
+-
+iostream
+-
+sstream
+-
+string
+-
+vector
+-
+set
+-
+unistd.h
+-
+fcntl.h
+-
+sys/stat.h
+-
+stdlib.h
+-
+stdio.h
+-
+

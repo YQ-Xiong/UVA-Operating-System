@@ -1,0 +1,489 @@
+g++ -Wall -pedantic -O2 -g -std=c++11   -c -o main.o main.cc
+g++ -Wall -pedantic -O2 -g -std=c++11 -o uvash main.o
+python3 shell_test.py
+---
+Failed test exit immediately
+Test input:
+   exit
+Expected stdout regular expression pattern:  
+   > 
+Expected stderr regular expression pattern:  
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [> ] in []
+  in stderr: unexpected extra output [['<error output not available>']]
+---
+---
+Failed test empty command is invalid
+Test input:
+   
+   exit
+Expected stdout regular expression pattern:  
+   > > 
+Expected stderr regular expression pattern:  
+   .*invalid command.*
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [> > ] in []
+  in stderr: could not find a match for pattern [.*invalid command.*] in line [<error output not available>]
+  in stderr: could not find match for pattern [.*invalid command.*] in ['<error output not available>']
+---
+---
+Failed test empty command is invalid, even with whitespace
+Test input:
+                	      
+   exit
+Expected stdout regular expression pattern:  
+   > > 
+Expected stderr regular expression pattern:  
+   .*invalid command.*
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [> > ] in []
+  in stderr: could not find a match for pattern [.*invalid command.*] in line [<error output not available>]
+  in stderr: could not find match for pattern [.*invalid command.*] in ['<error output not available>']
+---
+---
+Failed test trivial command, exit status 0
+Test input:
+   /bin/true
+   exit
+Expected stdout regular expression pattern:  
+   > .*[Ee]xit status: 0.*
+   > 
+Expected stderr regular expression pattern:  
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [> .*[Ee]xit status: 0.*] in []
+  in stderr: unexpected extra output [['<error output not available>']]
+---
+---
+Failed test trivial command with extra space, exit status 0
+Test input:
+    /bin/true
+   exit
+Expected stdout regular expression pattern:  
+   > .*[Ee]xit status: 0.*
+   > 
+Expected stderr regular expression pattern:  
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [> .*[Ee]xit status: 0.*] in []
+  in stderr: unexpected extra output [['<error output not available>']]
+---
+---
+Failed test trivial command with extra tab, exit status 0
+Test input:
+   	/bin/true
+   exit
+Expected stdout regular expression pattern:  
+   > .*[Ee]xit status: 0.*
+   > 
+Expected stderr regular expression pattern:  
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [> .*[Ee]xit status: 0.*] in []
+  in stderr: unexpected extra output [['<error output not available>']]
+---
+---
+Failed test trivial command with extra vertical tab, exit status 0
+Test input:
+   /bin/true
+   exit
+Expected stdout regular expression pattern:  
+   > .*[Ee]xit status: 0.*
+   > 
+Expected stderr regular expression pattern:  
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [> .*[Ee]xit status: 0.*] in []
+  in stderr: unexpected extra output [['<error output not available>']]
+---
+---
+Failed test trivial command, exit status 1
+Test input:
+   /bin/false
+   exit
+Expected stdout regular expression pattern:  
+   > .*[Ee]xit status: 1.*
+   > 
+Expected stderr regular expression pattern:  
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [> .*[Ee]xit status: 1.*] in []
+  in stderr: unexpected extra output [['<error output not available>']]
+---
+---
+Failed test only redirections is invalid
+Test input:
+   > foo.txt < bar.txt
+   exit
+Expected stdout regular expression pattern:  
+   > > 
+Expected stderr regular expression pattern:  
+   .*invalid command.*
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [> > ] in []
+  in stderr: could not find a match for pattern [.*invalid command.*] in line [<error output not available>]
+  in stderr: could not find match for pattern [.*invalid command.*] in ['<error output not available>']
+---
+---
+Failed test redirection to nothing is invalid
+Test input:
+   /bin/true > 
+   exit
+Expected stdout regular expression pattern:  
+   > > 
+Expected stderr regular expression pattern:  
+   .*invalid command.*
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [> > ] in []
+  in stderr: could not find a match for pattern [.*invalid command.*] in line [<error output not available>]
+  in stderr: could not find match for pattern [.*invalid command.*] in ['<error output not available>']
+---
+---
+Failed test redirection from nothing is invalid
+Test input:
+   /bin/true < 
+   exit
+Expected stdout regular expression pattern:  
+   > > 
+Expected stderr regular expression pattern:  
+   .*invalid command.*
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [> > ] in []
+  in stderr: could not find a match for pattern [.*invalid command.*] in line [<error output not available>]
+  in stderr: could not find match for pattern [.*invalid command.*] in ['<error output not available>']
+---
+---
+Failed test pass arguments
+Test input:
+   test/argument_test.sh first second_with_underscore third
+   exit
+Expected stderr regular expression pattern:  
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [> ] in []
+  in stderr: unexpected extra output [['<error output not available>']]
+---
+---
+Failed test " is not quote
+Test input:
+   test/argument_test.sh "not quoted"
+   exit
+Expected stderr regular expression pattern:  
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [> ] in []
+  in stderr: unexpected extra output [['<error output not available>']]
+---
+---
+Failed test varying argument counts and lengths
+Test input:
+   test/argument_test.sh aX bX cX dX eX
+   test/argument_test.sh f g hZZ i
+   test/argument_test.sh j k l
+   exit
+Expected stderr regular expression pattern:  
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [> ] in []
+  in stderr: unexpected extra output [['<error output not available>']]
+---
+---
+Failed test varing command lengths (1)
+Test input:
+   ./test/argument_test.sh a b c d e
+   /bin/echo f g h i
+   test/argument_test.sh j k l
+   exit
+Expected stderr regular expression pattern:  
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [> ] in []
+  in stderr: unexpected extra output [['<error output not available>']]
+---
+---
+Failed test varing command lengths (2)
+Test input:
+   /bin/echo f g h i
+   ./test/argument_test.sh aXX bXX cXX dXX eXX
+   test/argument_test.sh j k l
+   exit
+Expected stderr regular expression pattern:  
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [> f g h i] in []
+  in stderr: unexpected extra output [['<error output not available>']]
+---
+---
+Failed test very long argument
+Test input:
+   /bin/echo short
+   /bin/echo QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+   exit
+Expected stderr regular expression pattern:  
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [> short] in []
+  in stderr: unexpected extra output [['<error output not available>']]
+---
+---
+Failed test lots of arguments
+Test input:
+   /bin/echo short
+   test/argument_test.sh A B C D E F G H I J K L M N O P Q R S T
+   exit
+Expected stderr regular expression pattern:  
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [> short] in []
+  in stderr: unexpected extra output [['<error output not available>']]
+---
+---
+Failed test extra whitespace without redirects
+Test input:
+      		 /bin/echo	testing    one   two three 
+   exit
+Expected stdout regular expression pattern:  
+   > testing one two three
+   .*exit status: 0.*
+   > 
+Expected stderr regular expression pattern:  
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [> testing one two three] in []
+  in stderr: unexpected extra output [['<error output not available>']]
+---
+---
+Failed test redirections require whitespace around >
+Test input:
+   /bin/echo  this is a >test
+   exit
+Expected stdout regular expression pattern:  
+   > this is a >test
+   .*exit status: 0.*
+   > 
+Expected stderr regular expression pattern:  
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [> this is a >test] in []
+  in stderr: unexpected extra output [['<error output not available>']]
+---
+---
+Failed test redirections require whitespace around <
+Test input:
+   /bin/echo  this is a <test
+   exit
+Expected stdout regular expression pattern:  
+   > this is a <test
+   .*exit status: 0.*
+   > 
+Expected stderr regular expression pattern:  
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [> this is a <test] in []
+  in stderr: unexpected extra output [['<error output not available>']]
+---
+---
+Failed test >> is not a redirection operator
+Test input:
+   /bin/echo  this is a >> test
+   exit
+Expected stdout regular expression pattern:  
+   > this is a >> test
+   .*exit status: 0.*
+   > 
+Expected stderr regular expression pattern:  
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [> this is a >> test] in []
+  in stderr: unexpected extra output [['<error output not available>']]
+---
+---
+Failed test redirect stdin inode
+Test input:
+   /usr/bin/stat -L -c %i/%d /proc/self/fd/0 < test/input.txt
+   exit
+Expected stdout regular expression pattern:  
+   > 9830813/16777220
+   .*exit status: 0.*
+   > 
+Expected stderr regular expression pattern:  
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [> 9830813/16777220] in []
+  in stderr: unexpected extra output [['<error output not available>']]
+---
+---
+Failed test redirect stdin contents
+Test input:
+   /bin/cat < test/input.txt
+   exit
+Expected stdout regular expression pattern:  
+   > This is an example input file.
+   Which has multiple lines.
+   .*exit status: 0.*
+   > 
+Expected stderr regular expression pattern:  
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [> This is an example input file.] in []
+  in stderr: unexpected extra output [['<error output not available>']]
+---
+---
+Failed test simple pipe output
+Test input:
+   /bin/echo testing  one two three | /bin/sed -e s/one/XXX/
+   exit
+Expected stdout regular expression pattern:  (extra lines allowed)
+   .*testing XXX two three
+Expected stderr regular expression pattern:  
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [.*testing XXX two three] in []
+  in stderr: unexpected extra output [['<error output not available>']]
+---
+---
+Failed test simple pipe exit status
+Test input:
+   /bin/echo testing one two three | /bin/sed -e s/one/XXX/
+   exit
+Expected stdout regular expression pattern:  (extra lines allowed)
+   .*exit status: 0.*
+   .*exit status: 0.*
+Expected stderr regular expression pattern:  
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [.*exit status: 0.*] in []
+  in stderr: unexpected extra output [['<error output not available>']]
+---
+---
+Failed test longer pipeline output
+Test input:
+   /bin/echo testing one two three | /bin/sed -e s/one/XXX/ | /bin/sed -e s/two/YYY/
+   exit
+Expected stdout regular expression pattern:  (extra lines allowed)
+   .*testing XXX YYY three
+Expected stderr regular expression pattern:  
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [.*testing XXX YYY three] in []
+  in stderr: unexpected extra output [['<error output not available>']]
+---
+---
+Failed test longer pipeline exit status (all 0s)
+Test input:
+   /bin/echo testing one two three | /bin/sed -e s/one/XXX/ | /bin/sed -e s/two/YYY/
+   exit
+Expected stdout regular expression pattern:  (extra lines allowed)
+   .*exit status: 0.*
+   .*exit status: 0.*
+   .*exit status: 0.*
+Expected stderr regular expression pattern:  
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [.*exit status: 0.*] in []
+  in stderr: unexpected extra output [['<error output not available>']]
+---
+---
+Failed test pipeline with two exit status 1s and one 0 has 1s
+Test input:
+   /bin/true ignored 1 | /bin/false ignored 2 | /bin/false ignored 3
+   exit
+Expected stdout regular expression pattern:  (extra lines allowed)
+   .*exit status: 1.*
+   .*exit status: 1.*
+Expected stderr regular expression pattern:  
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [.*exit status: 1.*] in []
+  in stderr: unexpected extra output [['<error output not available>']]
+---
+---
+Failed test pipeline with two exit status 1s and one 0 has 0
+Test input:
+   /bin/true some ignored arugments | /bin/false ignored argument | /bin/false more ignored argument
+   exit
+Expected stdout regular expression pattern:  (extra lines allowed)
+   .*exit status: 0.*
+Expected stderr regular expression pattern:  
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [.*exit status: 0.*] in []
+  in stderr: unexpected extra output [['<error output not available>']]
+---
+---
+Failed test fork fails
+Test input:
+   /bin/echo testing one two three
+   exit
+Expected stdout regular expression pattern:  
+   > > 
+Expected stderr regular expression pattern:  (extra lines allowed)
+   .+
+(This test also has some setup code.)
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [> > ] in []
+---
+---
+Failed test fork fails in a pipeline 
+Test input:
+   /bin/cat | /bin/cat | /bin/cat | /bin/cat
+   exit
+Expected stdout regular expression pattern:  
+   > > 
+Expected stderr regular expression pattern:  (extra lines allowed)
+   .+
+(This test also has some setup code.)
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [> > ] in []
+---
+---
+Failed test |s without spaces is not a pipeline
+Test input:
+   /bin/echo this|argument|has|pipes
+   exit
+Expected stdout regular expression pattern:  
+   > this\|argument\|has\|pipes
+   .*exit status: 0.*
+   > 
+Expected stderr regular expression pattern:  
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [> this\|argument\|has\|pipes] in []
+  in stderr: unexpected extra output [['<error output not available>']]
+---
+---
+Failed test |s without spaces mixed with | with spaces (output)
+Test input:
+   /bin/echo this|argument|has|pipes | /bin/sed -e s/argument/XXX/
+   exit
+Expected stdout regular expression pattern:  (extra lines allowed)
+   .*this\|XXX\|has\|pipes
+   > 
+Expected stderr regular expression pattern:  
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [.*this\|XXX\|has\|pipes] in []
+  in stderr: unexpected extra output [['<error output not available>']]
+---
+---
+Failed test |s without spaces mixed with | with spaces (exit statuses)
+Test input:
+   /bin/echo this|argument|has|pipes | /bin/sed -e s/argument/XXX/
+   exit
+Expected stdout regular expression pattern:  (extra lines allowed)
+   .*exit status: 0.*
+   .*exit status: 0.*
+Expected stderr regular expression pattern:  
+Errors:
+  timed out after 5 seconds
+  in stdout: could not find match for pattern [.*exit status: 0.*] in []
+  in stderr: unexpected extra output [['<error output not available>']]
+---
