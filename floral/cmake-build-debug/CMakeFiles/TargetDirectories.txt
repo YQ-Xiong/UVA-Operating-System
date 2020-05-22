@@ -1,0 +1,3 @@
+/home/parallels/Desktop/Parallels Shared Folders/Home/Downloads/floral/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/parallels/Desktop/Parallels Shared Folders/Home/Downloads/floral/cmake-build-debug/CMakeFiles/floral.dir
+/home/parallels/Desktop/Parallels Shared Folders/Home/Downloads/floral/cmake-build-debug/CMakeFiles/edit_cache.dir

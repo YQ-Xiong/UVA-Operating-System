@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="floral"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/parallels/Desktop/Parallels Shared Folders/Home/Downloads/floral/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/parallels/Desktop/Parallels\ Shared\ Folders/Home/Downloads/floral/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/parallels/Desktop/Parallels\ Shared\ Folders/Home/Downloads/floral/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/parallels/Desktop/Parallels\ Shared\ Folders/Home/Downloads/floral/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/parallels/Desktop/Parallels\ Shared\ Folders/Home/Downloads/floral/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/parallels/Desktop/Parallels Shared Folders/Home/Downloads/floral/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/parallels/Desktop/Parallels\ Shared\ Folders/Home/Downloads/floral/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/parallels/Desktop/Parallels\ Shared\ Folders/Home/Downloads/floral/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/parallels/Desktop/Parallels\ Shared\ Folders/Home/Downloads/floral/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/parallels/Desktop/Parallels\ Shared\ Folders/Home/Downloads/floral/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="floral">
+				<Option output="/home/parallels/Desktop/Parallels Shared Folders/Home/Downloads/floral/cmake-build-debug/floral" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/parallels/Desktop/Parallels Shared Folders/Home/Downloads/floral/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/parallels/Desktop/Parallels Shared Folders/Home/Downloads/floral/include"/>
+					<Add directory="/home/parallels/Desktop/Parallels Shared Folders/Home/Downloads/floral/test/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/parallels/Desktop/Parallels\ Shared\ Folders/Home/Downloads/floral/cmake-build-debug/Makefile&quot;  VERBOSE=1 floral"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/parallels/Desktop/Parallels\ Shared\ Folders/Home/Downloads/floral/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/parallels/Desktop/Parallels\ Shared\ Folders/Home/Downloads/floral/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/parallels/Desktop/Parallels\ Shared\ Folders/Home/Downloads/floral/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="floral/fast">
+				<Option output="/home/parallels/Desktop/Parallels Shared Folders/Home/Downloads/floral/cmake-build-debug/floral" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/parallels/Desktop/Parallels Shared Folders/Home/Downloads/floral/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/parallels/Desktop/Parallels Shared Folders/Home/Downloads/floral/include"/>
+					<Add directory="/home/parallels/Desktop/Parallels Shared Folders/Home/Downloads/floral/test/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/parallels/Desktop/Parallels\ Shared\ Folders/Home/Downloads/floral/cmake-build-debug/Makefile&quot;  VERBOSE=1 floral/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/parallels/Desktop/Parallels\ Shared\ Folders/Home/Downloads/floral/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/parallels/Desktop/Parallels\ Shared\ Folders/Home/Downloads/floral/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/parallels/Desktop/Parallels\ Shared\ Folders/Home/Downloads/floral/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/parallels/Desktop/Parallels Shared Folders/Home/Downloads/floral/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/parallels/Desktop/Parallels\ Shared\ Folders/Home/Downloads/floral/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/parallels/Desktop/Parallels\ Shared\ Folders/Home/Downloads/floral/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/parallels/Desktop/Parallels\ Shared\ Folders/Home/Downloads/floral/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/parallels/Desktop/Parallels\ Shared\ Folders/Home/Downloads/floral/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/parallels/Desktop/Parallels Shared Folders/Home/Downloads/floral/include/floral.h">
+			<Option target="floral"/>
+		</Unit>
+		<Unit filename="/home/parallels/Desktop/Parallels Shared Folders/Home/Downloads/floral/include/main.h">
+			<Option target="floral"/>
+		</Unit>
+		<Unit filename="/home/parallels/Desktop/Parallels Shared Folders/Home/Downloads/floral/include/thread.h">
+			<Option target="floral"/>
+		</Unit>
+		<Unit filename="/home/parallels/Desktop/Parallels Shared Folders/Home/Downloads/floral/include/utils.h">
+			<Option target="floral"/>
+		</Unit>
+		<Unit filename="/home/parallels/Desktop/Parallels Shared Folders/Home/Downloads/floral/src/main.c">
+			<Option target="floral"/>
+		</Unit>
+		<Unit filename="/home/parallels/Desktop/Parallels Shared Folders/Home/Downloads/floral/src/thread.c">
+			<Option target="floral"/>
+		</Unit>
+		<Unit filename="/home/parallels/Desktop/Parallels Shared Folders/Home/Downloads/floral/test/include/test.h">
+			<Option target="floral"/>
+		</Unit>
+		<Unit filename="/home/parallels/Desktop/Parallels Shared Folders/Home/Downloads/floral/test/src/phase1_tests.c">
+			<Option target="floral"/>
+		</Unit>
+		<Unit filename="/home/parallels/Desktop/Parallels Shared Folders/Home/Downloads/floral/test/src/phase2_tests.c">
+			<Option target="floral"/>
+		</Unit>
+		<Unit filename="/home/parallels/Desktop/Parallels Shared Folders/Home/Downloads/floral/test/src/phase3_tests.c">
+			<Option target="floral"/>
+		</Unit>
+		<Unit filename="/home/parallels/Desktop/Parallels Shared Folders/Home/Downloads/floral/test/src/phase4_tests.c">
+			<Option target="floral"/>
+		</Unit>
+		<Unit filename="/home/parallels/Desktop/Parallels Shared Folders/Home/Downloads/floral/test/src/phase5_tests.c">
+			<Option target="floral"/>
+		</Unit>
+		<Unit filename="/home/parallels/Desktop/Parallels Shared Folders/Home/Downloads/floral/test/src/test.c">
+			<Option target="floral"/>
+		</Unit>
+		<Unit filename="/home/parallels/Desktop/Parallels Shared Folders/Home/Downloads/floral/test/src/test_utils.c">
+			<Option target="floral"/>
+		</Unit>
+		<Unit filename="/home/parallels/Desktop/Parallels Shared Folders/Home/Downloads/floral/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
